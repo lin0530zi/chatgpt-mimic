@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT-mimic</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+        }
+        .chat-header {
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .chat-box {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #ffffff;
+        }
+        .chat-message {
+            margin-bottom: 15px;
+            display: flex;
+        }
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+        .chat-message.bot {
+            justify-content: flex-start;
+        }
+        .chat-bubble {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .chat-bubble.user {
+            background-color: #ffffff;
+            color: black;
+            border-top-right-radius: 0;
+            border: 1px solid #e0e0e0;
+        }
+        .chat-bubble.bot {
+            background-color: #f1f0f0;
+            color: black;
+            border-top-left-radius: 0;
+            border: 1px solid #e0e0e0;
+        }
+        .chat-input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+        .chat-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 14px;
+            background-color: #ffffff;
+        }
+        .send-button {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .send-button:focus {
+            outline: none;
+        }
+        .typing-indicator {
+            display: none;
+            font-style: italic;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">ChatGPT-mimic</div>
+    <div class="chat-box" id="chatBox">
+        <div class="chat-message bot">
+            <div class="chat-bubble bot">你好，我是ChatGPT-mimic，你可以向我提问任何问题！</div>
+        </div>
+        <div class="typing-indicator" id="typingIndicator">AI is typing...</div>
+    </div>
+    <div class="chat-input-container">
+        <input type="text" class="chat-input" id="userInput" placeholder="输入您的问题...">
+        <button class="send-button" onclick="sendMessage()">➤</button>
+    </div>
+</div>
+
+<script>
+    function sendMessage() {
+        var userInput = document.getElementById("userInput").value;
+        var chatBox = document.getElementById("chatBox");
+        var typingIndicator = document.getElementById("typingIndicator");
+
+        if (userInput.trim() === "") return;
+
+        var userMessageDiv = document.createElement("div");
+        userMessageDiv.className = "chat-message user";
+        userMessageDiv.innerHTML = `<div class="chat-bubble user">${userInput}</div>`;
+        chatBox.appendChild(userMessageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        document.getElementById("userInput").value = "";
+
+        typingIndicator.style.display = "block";
+
+        setTimeout(function() {
+            typingIndicator.style.display = "none";
+
+            if (userInput.includes("适合忙碌上班族的健康晚餐食谱")) {
+                handleResponse([
+                    "以下是一些适合忙碌上班族的健康晚餐食谱，既营养丰富又能在30分钟内完成：",
+                    "1. 蒜香柠檬烤鸡胸肉：用橄榄油、蒜末、柠檬汁腌制鸡胸肉，然后在烤箱中烤制约20分钟，配上蒸蔬菜和糙米饭。",
+                    "2. 鳄梨虾仁沙拉：将煮熟的虾仁、鳄梨块、番茄丁和菠菜混合，加入橄榄油和柠檬汁调味即可。",
+                    "3. 西兰花炒牛肉：牛肉片快速翻炒后加入西兰花和酱油炒匀，配上糙米或全麦面条。",
+                    "4. 蛋白蔬菜炒饭：用鸡蛋、红椒、豌豆、西兰花和糙米炒制，加入少许酱油和香油。",
+                    "5. 藜麦鸡肉碗：煮熟藜麦，配上烤鸡胸肉、菠菜、番茄和鳄梨，淋上少量橄榄油和柠檬汁。",
+                    "这些食谱均简单易做，且富含蛋白质、纤维和健康脂肪，非常适合忙碌的生活节奏。"
+                ], chatBox);
+            } else if (userInput.includes("挑选新鲜的虾仁")) {
+                handleResponse([
+                    "挑选新鲜的虾仁时，可以注意以下几点：",
+                    "1. 颜色：新鲜的虾仁应呈现半透明的白色或淡粉色。如果颜色变灰或发黄，说明虾不新鲜。",
+                    "2. 气味：闻起来应该有淡淡的海洋气息，没有腥臭或异味。",
+                    "3. 质地：虾仁应该摸起来有弹性且光滑。如果触感黏糊或软塌，则不新鲜。",
+                    "4. 外观：虾仁表面应该没有黑点或干燥痕迹，且肉质紧实。",
+                    "5. 大小一致性：挑选大小均匀的虾仁，烹饪时可以受热均匀。",
+                    "确保选择有信誉的供应商，购买时也可以询问当天捕捞的虾。"
+                ], chatBox);
+            } else {
+                var botResponseDiv = document.createElement("div");
+                botResponseDiv.className = "chat-message bot";
+                botResponseDiv.innerHTML = "<p>抱歉，为控制该研究的实验场景，我不能回答您的问题。请尝试提问问卷中建议的问题，如“适合忙碌上班族的健康晚餐食谱”。</p>";
+                chatBox.appendChild(botResponseDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }, 1000);
+    }
+
+    function handleResponse(messages, chatBox) {
+        let index = 0;
+        function showNextMessage() {
+            if (index < messages.length) {
+                var botResponseDiv = document.createElement("div");
+                botResponseDiv.className = "chat-message bot";
+                chatBox.appendChild(botResponseDiv);
+                typeText(botResponseDiv, messages[index], chatBox, function() {
+                    index++;
+                    setTimeout(showNextMessage, 500); // 等待0.5秒后显示下一个消息
+                });
+            }
+        }
+        showNextMessage();
+    }
+
+    function typeText(element, text, chatBox, callback) {
+        let index = 0;
+        let interval = setInterval(function() {
+            if (index < text.length) {
+                element.innerHTML += text.charAt(index);
+                index++;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } else {
+                clearInterval(interval);
+                if (callback) callback();
+            }
+        }, 50); // 打字速度
+    }
+</script>
+
+</body>
+</html>
